@@ -6,12 +6,11 @@ import Dashboard from './Pages/Dashboard/Dashboard'
 import Complaints from './Pages/Complaints/Complaints'
 import Transactions from './Pages/Transactions/Transactions'
 import Bills from './Pages/Bills/Bills'
-import UserPage from './UserPage'
+import UserPage from './Pages/UserPage/UserPage'
 
 const App = () => {
   return (
     <div>
-      
       <Routes>
       <Route path='/' element= {<Body/>}/> 
       <Route path='/userpage' element={<UserPage/>}/>

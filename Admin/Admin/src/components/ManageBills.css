@@ -1,0 +1,49 @@
+.manage-bills {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .users-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .users-list button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+  
+  .users-list button:hover {
+    background-color: #0056b3;
+  }
+  
+  .user-bills {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .user-complaints {
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+  .user-complaints ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  

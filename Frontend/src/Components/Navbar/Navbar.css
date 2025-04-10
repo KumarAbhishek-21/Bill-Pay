@@ -8,6 +8,14 @@
     width: 95vw;
     
   }
+
+  .Navbar h2{
+    color:#0056b3;
+    font-size: 30px;
+    font-weight: bolder;
+    margin: 0;
+    padding: 0;
+  }
   
   /* .navbar .logo {
     width: max(10%, 80px);
@@ -16,7 +24,33 @@
     font-weight: bolder;
     
   }
-  .Navbar .profile {
+  .Navbar img {
     width: 40px;
+  }
+  .profile-dropdown{
+    position: absolute;
+    display: none;
+    right: 0;
+    z-index: 1;
+  }
+
+  .navbar-right:hover .profile-dropdown{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    background-color: #fff2ef;
+    padding: 12px 25px;
+    border-radius: 4px;
+    border: 1px solid black;
+    outline: 2px solid white;
+    list-style: none;
+  
+  }
+  .profile-dropdown li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
   }
   
