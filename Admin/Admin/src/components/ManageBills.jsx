@@ -52,7 +52,7 @@ const ManageBills = () => {
               getUserComplaintsById(user._id);
             }}
           >
-            {user.userName} ({user.email})
+            {user.userName} - ({user.email})
           </button>
         ))}
       </div>

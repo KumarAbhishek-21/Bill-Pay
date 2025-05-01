@@ -84,6 +84,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [paidBillCount, setPaidBillCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
+  const [complaintsCount, setComplaintsCount] = useState(0);
 
   useEffect(() => {
     const fetchBills = async () => {
@@ -91,7 +92,7 @@ const Dashboard = () => {
 
       if (!token) {
         alert("Session expired. Please log in again.");
-        navigate("/login");
+        navigate("/");
         return;
       }
 
@@ -115,10 +116,20 @@ const Dashboard = () => {
         // Count pending bills
         const pendingBills = bills.filter((bill) => bill.status === "PENDING").length;
         setPendingCount(pendingBills);
+
+
+        const complaints = await axios.get(`${url}/user/my-complaints`,{
+          headers: {Authorization: `Bearer ${token}`},
+        });
+
+        const complaintsData = complaints.data;
+        const unresolvedComplaints = complaintsData.filter((complaint) => complaint.status === "UNRESOLVED").length
+        setComplaintsCount(unresolvedComplaints);
+        
       } catch (err) {
         console.error("Error fetching user bills:", err);
         alert("Session expired. Please log in again.");
-        navigate("/login");
+        navigate("/");
       }
     };
 
@@ -131,6 +142,10 @@ const Dashboard = () => {
 
   const goToPendingBills = () => {
     navigate("/bills?tab=due");
+  }
+
+  const goToComplaints = () =>{
+    navigate("/complaints");
   }
 
 
@@ -147,6 +162,10 @@ const Dashboard = () => {
         <div className="stats-box" onClick={goToPendingBills}>
           <h3>{pendingCount}</h3>
           <p>Pending Bills</p>
+        </div>
+        <div className="stats-box" onClick={goToComplaints}>
+          <h3>{complaintsCount}</h3>
+          <p>Pending Complaints</p>
         </div>
       </div>
     </div>

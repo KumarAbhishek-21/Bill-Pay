@@ -5,6 +5,7 @@ import "./User.css";
 
 const User = () => {
   return (
+    
     <div className="sidebar">
       <div className="sidebar-options">
         <NavLink to="/dashboard" className="sidebar-option">
@@ -27,6 +28,7 @@ const User = () => {
           <p>Complaints</p>
         </NavLink>
       </div>
+      
     </div>
   );
 };

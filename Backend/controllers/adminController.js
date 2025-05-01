@@ -1,11 +1,12 @@
 import { userModel } from "../models/userModel.js";
 import { billModel } from "../models/billModel.js";
 import mongoose from "mongoose";
+import { transporter } from "./notificationController.js";
 
 // Fetch all users
 export const getUsers = async (req, res) => {
   try {
-    const users = await userModel.find({}, "name email");
+    const users = await userModel.find({}, "userName email");
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users" });
@@ -85,6 +86,26 @@ export const addBill = async (req, res) => {
     // Save to database
     await bill.save();
 
+    await transporter.sendMail({
+      from: process.env.GMAIL_USER,
+      to: user.email,
+      subject: "New Electricity Bill Generated",
+      html: `
+      <h3>Hello ${user.userName},</h3>
+      <p>Your new electricity bill has been generated:</p>
+      <ul>
+        <li><strong>Bill Date:</strong> ${billDate}</li>
+        <li><strong>Room Rent:</strong> ₹${RoomRent}</li>
+        <li><strong>Units Consumed:</strong> ${unitsConsumed} units</li>
+        <li><strong>Amount Per Unit:</strong> ₹${amountPerUnit}</li>
+        <li><strong>Total:</strong> ₹${totalAmountValue}</li>
+        <li><strong>Due Date:</strong> ${dueDate}</li>
+      </ul>
+      <p>Please pay it before the due date.</p>
+      <p>Thank you!</p>
+      `,
+    });
+
     res
       .status(201)
       .json({ success: true, message: "Bill added successfully", bill });
@@ -131,18 +152,25 @@ export const updateBill = async (req, res) => {
     const bill = await billModel.findById(req.params.billId);
     if (!bill) {
       return res.status(404).json({ message: "Bill not found" });
-    } 
+    }
 
-    const { billDate, RoomRent, unitsConsumed, amountPerUnit, dueDate, status} = req.body;
+    const {
+      billDate,
+      RoomRent,
+      unitsConsumed,
+      amountPerUnit,
+      dueDate,
+      status,
+    } = req.body;
 
-    if(RoomRent !== undefined) bill.RoomRent = RoomRent;
-    if(unitsConsumed !== undefined) bill.unitsConsumed = unitsConsumed;
-    if(amountPerUnit !== undefined) bill.amountPerUnit = amountPerUnit;
-    if(billDate !== undefined) bill.billDate = billDate;
-    if(dueDate !== undefined) bill.dueDate = dueDate;
-    if(status !== undefined) bill.status = status;
-    
-    bill.totalAmount = bill.RoomRent + (bill.unitsConsumed * bill.amountPerUnit); // Recalculate total amount
+    if (RoomRent !== undefined) bill.RoomRent = RoomRent;
+    if (unitsConsumed !== undefined) bill.unitsConsumed = unitsConsumed;
+    if (amountPerUnit !== undefined) bill.amountPerUnit = amountPerUnit;
+    if (billDate !== undefined) bill.billDate = billDate;
+    if (dueDate !== undefined) bill.dueDate = dueDate;
+    if (status !== undefined) bill.status = status;
+
+    bill.totalAmount = bill.RoomRent + bill.unitsConsumed * bill.amountPerUnit; // Recalculate total amount
     await bill.save();
 
     res.json({ message: "Bill updated successfully", bill });

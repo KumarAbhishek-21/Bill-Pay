@@ -6,7 +6,7 @@
     
     font-size: max(1vw, 10px);
     background: #b9bbed;
-    /* margin-top: 100px; */
+   
     
   }
   
@@ -36,10 +36,12 @@
     text-decoration: none;
     color: black;
   }
-  /* .sidebar-option.active {
-    background-color: #fff0ed;
-    border-color: #49557e;
-  } */
+  .sidebar-option:hover {
+    background: #8080FF;
+    color: white;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
 
   .image {
     width: 50px;
@@ -48,6 +50,11 @@
     border-radius: 50%;
   }
   
+
+ 
+
+
+
   @media (max-width: 1024px) {
     
     .sidebar{
